@@ -2,10 +2,10 @@ class Clock
   MINUTES_IN_A_HOUR = 60
   HOURS_IN_A_DAY = 24
 
-  attr_accessor :minutes
+  attr_reader :minutes
 
-  def initialize(hour: 0, minute: 0, minutes: nil)
-    @minutes = minutes || hour * MINUTES_IN_A_HOUR + minute
+  def initialize(hour: 0, minute: 0)
+    @minutes = hour * MINUTES_IN_A_HOUR + minute
   end
 
   def to_s
@@ -13,11 +13,11 @@ class Clock
   end
 
   def +(clock)
-    Clock.new(minutes: @minutes + clock.minutes)
+    self.class.new(minute: @minutes + clock.minutes)
   end
 
   def -(clock)
-    Clock.new(minutes: @minutes - clock.minutes)
+    self.class.new(minute: @minutes - clock.minutes)
   end
 
   def ==(clock)
@@ -27,16 +27,11 @@ class Clock
   private
 
   def hour
-    hours = extract_hours_from_minutes
-    remove_minutes_from_hours(hours)
+    minutes_to_hours % HOURS_IN_A_DAY
   end
 
-  def extract_hours_from_minutes
+  def minutes_to_hours
     @minutes / MINUTES_IN_A_HOUR
-  end
-
-  def remove_minutes_from_hours(hours)
-    hours % HOURS_IN_A_DAY
   end
 
   def minute
