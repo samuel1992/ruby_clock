@@ -9,7 +9,7 @@ class Clock
   end
 
   def to_s
-    '%02i:%02i' % [hour_from_minutes, only_minute]
+    '%02i:%02i' % [hour, minute]
   end
 
   def +(clock)
@@ -26,11 +26,20 @@ class Clock
 
   private
 
-  def hour_from_minutes
-    @minutes / MINUTES_IN_A_HOUR % HOURS_IN_A_DAY
+  def hour
+    hours = extract_hours_from_minutes
+    remove_minutes_from_hours(hours)
   end
 
-  def only_minute
+  def extract_hours_from_minutes
+    @minutes / MINUTES_IN_A_HOUR
+  end
+
+  def remove_minutes_from_hours(hours)
+    hours % HOURS_IN_A_DAY
+  end
+
+  def minute
     @minutes % MINUTES_IN_A_HOUR
   end
 end
