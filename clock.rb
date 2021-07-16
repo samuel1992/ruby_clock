@@ -4,8 +4,8 @@ class Clock
 
   attr_accessor :minutes
 
-  def initialize(hour: 0, minute: 0)
-    @minutes = hour * MINUTES_IN_A_HOUR + minute
+  def initialize(hour: 0, minute: 0, minutes: nil)
+    @minutes = minutes || hour * MINUTES_IN_A_HOUR + minute
   end
 
   def to_s
@@ -13,15 +13,11 @@ class Clock
   end
 
   def +(clock)
-    new_clock = Clock.new()
-    new_clock.minutes = @minutes + clock.minutes
-    new_clock
+    Clock.new(minutes: @minutes + clock.minutes)
   end
 
   def -(clock)
-    new_clock = Clock.new()
-    new_clock.minutes = @minutes - clock.minutes
-    new_clock
+    Clock.new(minutes: @minutes - clock.minutes)
   end
 
   def ==(clock)
